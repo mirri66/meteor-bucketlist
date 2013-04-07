@@ -25,7 +25,8 @@
       {{#each lists}}
         <div class="list {{selected}}">
           {{#if editing}}
-            <div class="edit">
+        <div class="destroy"></div>    
+	<div class="edit">
               <input class="list-name-input" id="list-name-input" type="text" value="{{name}}" />
             </div>
           {{else}}
@@ -38,9 +39,11 @@
         </div>
       {{/each}}
     </div>
+    <!-- disable new list 
     <div id="createList">
       <input type="text" id="new-list" placeholder="New list" />
     </div>
+    -->
   {{/if}}
 </template>
 
@@ -71,8 +74,10 @@
       </div>
     {{else}}
       <div class="destroy"></div>
+      <div class="votes"> {{votes}} </div>
       <div class="display">
         <input class="check" name="markdone" type="checkbox" {{{done_checkbox}}} />
+        <input class="upvote" name="upvote" type="button" value="upvote" />
         <div class="todo-text">{{text}}</div>
       </div>
     {{/if}}

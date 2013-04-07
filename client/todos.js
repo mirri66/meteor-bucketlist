@@ -85,7 +85,8 @@ Template.lists.loading = function () {
 };
 
 Template.lists.lists = function () {
-  return Lists.find({}, {sort: {name: 1}});
+//  return Lists.find({}, {sort: {name: 1}});
+  return Lists.find();
 };
 
 Template.lists.events({
@@ -96,11 +97,12 @@ Template.lists.events({
     // prevent clicks on <a> from refreshing the page.
     evt.preventDefault();
   },
-  'dblclick .list': function (evt, tmpl) { // start editing list name
-    Session.set('editing_listname', this._id);
-    Deps.flush(); // force DOM redraw, so we can focus the edit field
-    activateInput(tmpl.find("#list-name-input"));
-  }
+// // disable editing list names
+//  'dblclick .list': function (evt, tmpl) { // start editing list name
+//    Session.set('editing_listname', this._id);
+//    Deps.flush(); // force DOM redraw, so we can focus the edit field
+//    activateInput(tmpl.find("#list-name-input"));
+//  }
 });
 
 // Attach events to keydown, keyup, and blur on "New list" input box.
@@ -158,7 +160,10 @@ Template.todos.events(okCancelEvents(
         list_id: Session.get('list_id'),
         done: false,
         timestamp: (new Date()).getTime(),
-        tags: tag ? [tag] : []
+        tags: tag ? [tag] : [],
+// new properties
+        votes:1,
+        friends: 1,
       });
       evt.target.value = '';
     }
@@ -177,7 +182,7 @@ Template.todos.todos = function () {
   if (tag_filter)
     sel.tags = tag_filter;
 
-  return Todos.find(sel, {sort: {timestamp: 1}});
+  return Todos.find(sel, {sort: {votes: -1}});
 };
 
 Template.todo_item.tag_objs = function () {
@@ -208,6 +213,11 @@ Template.todo_item.events({
     Todos.update(this._id, {$set: {done: !this.done}});
   },
 
+  'click .upvote': function () {
+    var newvotes = this.votes + 1;
+    Todos.update(this._id, {$set: {votes: newvotes}});
+  },
+  
   'click .destroy': function () {
     Todos.remove(this._id);
   },

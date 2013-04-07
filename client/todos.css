@@ -181,8 +181,21 @@ h3 {
     width: 20px;
 }
 
+#item-list .todo .votes {
+    cursor: pointer;
+    position: absolute;
+    left: 100px;
+    top: 15px;
+}
+
+#item-list .todo .upvote {
+    cursor: pointer;
+    position: absolute;
+    left: 30px;
+    top: 15px;
+}
 #item-list .todo .display, #item-list .todo .edit {
-    margin-left: 30px;
+    margin-left: 150px;
     height: 100%;
     width: auto;
     float: left;
